@@ -1,8 +1,28 @@
+import { useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useCreateUser } from "../../hooks/useSignup";
 
 export const Signup = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
+
+  const { createUser, isLoading, error } = useCreateUser();
+
+  const handleSubmit = async () => {
+    const success = await createUser({ name, email, password });
+
+    if (success) {
+      alert("User created successfully!");
+      navigate("/login");
+    } else if (error) {
+      alert(error);
+    }
+  };
+  //do the registration logic
   return (
     <>
       <main className="bg-primary-bg min-h-screen pb-4 px-2">
@@ -20,22 +40,26 @@ export const Signup = () => {
         <section className="flex flex-col m-4 gap-4">
           <div className="flex flex-col gap-3">
             <span className="text-primary-text-color text-input-label font-bold">
+              Name
+            </span>
+            <input
+              type="text"
+              placeholder="Enter Your Name"
+              className="px-5 py-2 rounded-lg outline-none"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col gap-3">
+            <span className="text-primary-text-color text-input-label font-bold">
               Email
             </span>
             <input
               type="email"
               placeholder="Enter Your Email"
               className="px-5 py-2 rounded-lg outline-none"
-            />
-          </div>
-          <div className="flex flex-col gap-3">
-            <span className="text-primary-text-color text-input-label font-bold">
-              Name
-            </span>
-            <input
-              type="text"
-              placeholder="Enter Your Email"
-              className="px-5 py-2 rounded-lg outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-3">
@@ -46,11 +70,16 @@ export const Signup = () => {
               type="password"
               placeholder="Enter Your Email"
               className="px-5 py-2 rounded-lg outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className="bg-primary-button py-3 mt-6 rounded-xl hover:bg-button-hover-color">
+          <button
+            onClick={handleSubmit}
+            className="bg-primary-button py-3 mt-6 rounded-xl hover:bg-button-hover-color"
+          >
             <span className="text-primary-text-color font-bold text-base">
-              Signup
+              {isLoading ? "Signing up..." : "Signup"}
             </span>
           </button>
         </section>
