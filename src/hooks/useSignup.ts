@@ -43,7 +43,8 @@ export const useCreateUser = () => {
 
       setIsLoading(false);
       return true;
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       setIsLoading(false);
       setError(error.message || "Error creating user.");
       return false;
