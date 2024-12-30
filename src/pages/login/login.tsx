@@ -1,8 +1,26 @@
+import { useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useLoginUser } from "../../hooks/useLogin";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
+
+  const { loginUser, error, isLoading } = useLoginUser();
+
+  const handleSubmit = async () => {
+    const success = await loginUser({ email, password });
+
+    if (success) {
+      alert("logged in successfully!");
+      navigate("/home");
+    } else if (error) {
+      alert(error);
+    }
+  };
   return (
     <>
       <main className="bg-primary-bg min-h-screen">
@@ -11,13 +29,13 @@ function Login() {
             <IoMdArrowRoundBack size={40} color="#009DA2" />
           </button>
         </div>
-        <div className="flex flex-col gap-7 items-center">
+        <div className="flex flex-col gap-3 items-center">
           <img src="../../assets/Logo.png" alt="" />
           <span className="text-primary-text-color text-h3 font-bold ">
             Welcome Back!
           </span>
         </div>
-        <section className="flex flex-col m-7 gap-6">
+        <section className="flex flex-col m-7 mt-5 gap-6">
           <div className="flex flex-col gap-3">
             <span className="text-primary-text-color text-input-label font-bold">
               Email
@@ -26,6 +44,8 @@ function Login() {
               type="text"
               placeholder="Enter Your Email"
               className="px-5 py-2 rounded-lg outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-3">
@@ -34,8 +54,10 @@ function Login() {
             </span>
             <input
               type="password"
-              placeholder="Enter Your Email"
+              placeholder="Enter Your Password"
               className="px-5 py-2 rounded-lg outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <a href="" className="text-end">
@@ -44,9 +66,12 @@ function Login() {
             </span>
           </a>
 
-          <button className="bg-primary-button py-3 rounded-xl hover:bg-button-hover-color">
+          <button
+            onClick={handleSubmit}
+            className="bg-primary-button py-3 rounded-xl hover:bg-button-hover-color"
+          >
             <span className="text-primary-text-color font-bold text-base">
-              Login
+              {isLoading ? "Login..." : "Login"}
             </span>
           </button>
         </section>
