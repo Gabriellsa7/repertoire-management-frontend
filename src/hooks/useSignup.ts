@@ -38,6 +38,14 @@ export const useCreateUser = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
+        if (
+          response.status === 400 &&
+          errorData.message === "Email already exists"
+        ) {
+          setError("Email already registered. Please use a different one.");
+        } else {
+          setError(errorData.message || "Error creating user");
+        }
         throw new Error(errorData.message || "Error creating user");
       }
 

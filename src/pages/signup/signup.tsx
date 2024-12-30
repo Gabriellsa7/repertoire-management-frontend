@@ -61,6 +61,7 @@ export const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {error && <div className="error-message">{error}</div>}
           </div>
           <div className="flex flex-col gap-3">
             <span className="text-primary-text-color text-input-label font-bold">
