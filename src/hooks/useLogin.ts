@@ -36,6 +36,17 @@ export const useLoginUser = () => {
         }
       }
 
+      // Parse the JSON response
+      const data = await response.json();
+      console.log("Response from server:", data);
+
+      // Save the user ID (or other relevant data) to localStorage
+      if (data.id) {
+        localStorage.setItem("userId", data.id);
+      } else {
+        console.error("User ID not found in response");
+      }
+
       setIsLoading(false);
       return true;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
