@@ -30,7 +30,7 @@ export const Login = () => {
         //use a floating notification system
         toast.error("Invalid email or password", {
           position: "top-right",
-          duration: 3000,
+          duration: 2000,
         });
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,7 +38,7 @@ export const Login = () => {
       console.log(error);
       toast.error("Error logging in. Please try again.", {
         position: "top-right",
-        duration: 3000,
+        duration: 2000,
       });
     }
   };
