@@ -3,6 +3,8 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useLoginUser } from "../../hooks/useLogin";
 
+import { Toaster, toast } from "react-hot-toast";
+
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,17 +14,37 @@ export const Login = () => {
   const { loginUser, error, isLoading } = useLoginUser();
 
   const handleSubmit = async () => {
-    const success = await loginUser({ email, password });
+    try {
+      const success = await loginUser({ email, password });
 
-    if (success) {
-      alert("logged in successfully!");
-      navigate("/home");
-    } else if (error) {
-      alert(error);
+      if (success) {
+        //use a floating notification system
+        toast.success("Logged in successfully!", {
+          position: "top-right",
+          duration: 2000,
+        });
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+      } else if (error) {
+        //use a floating notification system
+        toast.error("Invalid email or password", {
+          position: "top-right",
+          duration: 3000,
+        });
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+      toast.error("Error logging in. Please try again.", {
+        position: "top-right",
+        duration: 3000,
+      });
     }
   };
   return (
     <>
+      <Toaster />
       <main className="bg-primary-bg min-h-screen">
         <div className="flex items-start p-3">
           <button onClick={() => navigate("/")} className="bg-transparent">
