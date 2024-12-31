@@ -3,7 +3,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useLoginUser } from "../../hooks/useLogin";
 
-function Login() {
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -91,6 +91,4 @@ function Login() {
       </main>
     </>
   );
-}
-
-export default Login;
+};
