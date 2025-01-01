@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { MdNotificationsNone } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const userId = localStorage.getItem("userId"); // Retrieves the user ID stored in localStorage
@@ -32,20 +34,25 @@ export const Header = () => {
     }
   }, []);
 
+  const handleProfileButtonSubmit = () => {
+    console.log("Navigating to profile...");
+    navigate("/profile");
+  };
+
   return (
-    <div className="flex items-center justify-between p-6">
+    <div className="flex items-center justify-between px-4 py-5">
       <div className="flex items-center gap-3">
-        <img src="../../assets/headphones32x32.png" alt="headphone icon" />
+        <img src="../../assets/headphones36x36.png" alt="headphone icon" />
         <span className="text-primary-text-color font-bold text-base">
           {userName || "Loading..."} {/* Show the name or a fallback */}
         </span>
       </div>
       <div className="flex items-center gap-3">
-        <button className="bg-transparent">
-          <MdNotificationsNone size={28} color="#009DA2" />
+        <button onClick={handleProfileButtonSubmit} className="bg-transparent">
+          <MdNotificationsNone size={32} color="#009DA2" />
         </button>
-        <button className="bg-transparent">
-          <div className="w-10 h-10 bg-[#009DA2] text-white rounded-full flex items-center justify-center text-xl">
+        <button onClick={handleProfileButtonSubmit} className="bg-transparent">
+          <div className="w-11 h-11 bg-[#009DA2] text-white rounded-full flex items-center justify-center text-xl">
             {userName.charAt(0).toUpperCase()}
           </div>
         </button>
